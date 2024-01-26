@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "@/theme";
 
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from "next";
+
+import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +15,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { theme, colorMode } = useMode();
+
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <html className={styles.app} lang="pt-br">
+          <body>{children}</body>
+        </html>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
